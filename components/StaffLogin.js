@@ -1,12 +1,32 @@
-import { View, TextInput, Text, StyleSheet, Image, Pressable, KeyboardAvoidingView } from "react-native"
+import { View, TextInput, Text, StyleSheet, Image, Pressable, Alert } from "react-native"
 import { useState } from "react"
 import { useNavigation } from "@react-navigation/native";
 import { Dimensions } from "react-native";
 
 const StaffLogin = () => {
-    const user = "staff"
+    const user = 'Staff'
+    const [userId,setUserId]= useState('');
+    const [password,setPassword]= useState('');
     const navigation = useNavigation();
     const [bool,setBool]=useState(true);
+    const validation = ()=>{
+        if (userId===''|| password===''){
+            Alert.alert('Empty Credentials', 'Please enter your Staff-Id and Password', [
+                {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ]);
+        }
+        else if (userId!=='Harishankar'|| password!=='Jaswanth'){
+            Alert.alert('Invaid Credentials', 'Please enter valid Staff-Id and Password', [
+                {text: 'OK', onPress: () => {setUserId('');setPassword('')}},
+            ]);
+        }
+        else{
+            navigation.navigate('Home',{user:user,data1:userId,data2:password})
+            setTimeout(() => { setUserId('');
+                setPassword(''); }, 1000);
+            
+        }
+    }
     return (
         
                 <View style={styles.container}>
@@ -20,11 +40,11 @@ const StaffLogin = () => {
                         <Text style={styles.signin}>Sign In</Text>
                         <Text style={styles.comment}>Please sign in to continue</Text>
                         <View style={styles.input_container}>
-                            <TextInput onPressIn={()=>{setBool(false)}} onSubmitEditing={()=>{setBool(true)}} style={styles.input} placeholder="Staff Id"></TextInput>
-                            <TextInput onPressIn={()=>{setBool(false)}} onSubmitEditing={()=>{setBool(true)}} style={styles.input} placeholder="Password"></TextInput>
+                            <TextInput onPressIn={()=>{setBool(false)}} onSubmitEditing={()=>{setBool(true)}} onChangeText={setUserId} value={userId} style={styles.input} placeholder="Staff Id"></TextInput>
+                            <TextInput onPressIn={()=>{setBool(false)}} onSubmitEditing={()=>{setBool(true)}} onChangeText={setPassword} value={password} style={styles.input} placeholder="Password" secureTextEntry={true}></TextInput>
                         </View>
                         <View style={styles.button_container}>
-                            <Pressable style={styles.button} android_ripple={{color:'#121212'}} onPress={()=>{navigation.navigate('Home',user)}}>
+                            <Pressable style={styles.button} android_ripple={{color:'#121212'}} onPress={validation}>
                                 <Text style={styles.button_text}>Sign In</Text>
                             </Pressable>
                         </View>
@@ -58,10 +78,6 @@ const styles= StyleSheet.create({
         paddingHorizontal:35,
         flex:5,
         justifyContent:'flex-start',
-        // backgroundColor:'white',
-        // marginHorizontal:15,
-        // borderRadius:15,
-        // elevation:5,
     },
     signin:{
         fontSize:50,
@@ -89,7 +105,7 @@ const styles= StyleSheet.create({
     },
     button_container:{
         alignItems:'center',
-        marginBottom:30
+        marginBottom:30,
     },
     button:{
         backgroundColor:'black',
@@ -140,9 +156,4 @@ const styles= StyleSheet.create({
         fontFamily:'georama',
         fontSize:15
     },
-    flexkey:{
-        paddingHorizontal:35,
-        flex:5,
-        justifyContent:'center',
-    }
 })

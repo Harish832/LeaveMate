@@ -9,6 +9,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import StudentLoginScreen from './screens/StudentLoginScreen'
 import StaffLoginScreen from './screens/StaffLoginScreen';
 import Home from './screens/Home';
+import StudentHome from './components/StudentHome';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -40,6 +41,7 @@ export default function App() {
               <Stack.Screen name='StudentLogin' component={StudentLoginScreen}></Stack.Screen>
               <Stack.Screen name='StaffLogin' component={StaffLoginScreen}></Stack.Screen>
               <Stack.Screen name='Home' component={Home}></Stack.Screen>
+              <Stack.Screen name='Tabs' component={StudentHome}></Stack.Screen>
             </Stack.Navigator>
           </NavigationContainer>
         </View>
